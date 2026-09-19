@@ -56,10 +56,16 @@ jobs:
           chmod +x ./build_linux.sh
           ./build_linux.sh -r
 
-      - name: Organizar Artefatos
+      - name: Localizar e Organizar Artefatos
         run: |
           mkdir -p dist
-          find . -maxdepth 3 -name "*.AppImage" -exec cp {} dist/ \;
+          
+          # Busca o arquivo .AppImage em qualquer subpasta do workspace
+          echo "Buscando arquivos .AppImage gerados..."
+          find . -type f -name "*.AppImage" -exec cp -v {} dist/ \;
+          
+          # Exibe o conteúdo encontrado para diagnóstico
+          echo "Conteúdo da pasta dist:"
           ls -la dist/
 
       - name: Disponibilizar AppImage nos Artefatos da Action
